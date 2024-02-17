@@ -152,30 +152,34 @@ if field_selection == "work experiences":
     work_experience["role_title"] = st.text_input("role title : ")
     work_experience["role_description"] = st.text_input("role description : ")
 
-    st.write("projects")
-    project = {}
-    project["name"] = st.text_input("name : ")
-    project["description"] = st.text_input("description :")
+    with st.container(border=True):
+        st.write("projects")
+        project = {}
+        project["name"] = st.text_input("name : ")
+        project["description"] = st.text_input("description :")
 
-    st.write("tasks")
-    task = {}
-    task["task"] = st.text_input("taks achieved :")
-    task["skills"] = st.text_input("skills involved :")
-    task["quantification"] = st.text_input("quantification :")
-    add_task = st.button("add this task", key="add_task")
-    if add_task:
-        st.session_state.tasks.append(task)
+        with st.container(border=True):
+            st.write("tasks")
+            task = {}
+            task["task"] = st.text_input("taks achieved :")
+            task["skills"] = st.text_input("skills involved :")
+            task["quantification"] = st.text_input("quantification :")
+            add_task = st.button("add this task", key="add_task")
+            if add_task:
+                st.session_state.tasks.append(task)
 
-    #end of tasks
-    project["tasks"] = st.session_state.tasks
+            #end of tasks
+            project["tasks"] = st.session_state.tasks
 
-    add_project = st.button("add this project", key="add_project")
-    if add_project:
-        st.session_state.projects.append(project)
+        add_project = st.button("add this project", key="add_project")
+        if add_project:
+            st.session_state.projects.append(project)
+            st.session_state.tasks = []
 
-    #end of projects
-    work_experience["projects"] = st.session_state.projects
+        #end of projects
+        work_experience["projects"] = st.session_state.projects
 
+    st.divider()
     #end experience
     add_4 = st.button("add this experience", key="add_4")
 
