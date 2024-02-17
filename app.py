@@ -52,6 +52,28 @@ def get_roles():
     roles = _str_to_list(roles_str)
     st.session_state.candidate["roles"] = roles
 
+def get_education():
+    education = {}
+    add_1 = st.button("+", key="add_1")
+    education["grade"] = st.text_input("grade : ")
+    education["title"] = st.text_input("name of the formation : ")
+    education["website"] = st.text_input("website of the formation : ")
+    education["description"] = st.text_area("short description of the purpose of this formation :")
+
+    education["institute"] = st.text_input("name of the institution : ")
+    education["country"] = st.text_input("country : ")
+    education["city"] = st.text_input("city : ")
+
+    education["date_start"] = st.date_input("start")
+    education["date_end"] = st.date_input("end")
+
+    education["field_of_study"] = st.multiselect("select your study field :", study_fields)
+    tasks_str = st.text_input("list task that you accomplish :")
+    education["tasks"] = _str_to_list(tasks_str)
+    add_2 = st.button("+", key="add_2")
+
+    if add_1 or add_2:
+        st.session_state.candidate["educations"].append(education)
 
 #app
 st.title("The coach")
@@ -68,26 +90,7 @@ if field_selection == "roles":
 
 #education
 if field_selection == "educations":
-    education = {}
-    education["grade"] = st.text_input("grade : ")
-    #education["title"] = st.text_input("name of the formation : ")
-    #education["website"] = st.text_input("website of the formation : ")
-    #education["description"] = st.text_area("short description of the purpose of this formation :")
-
-    #education["institute"] = st.text_input("name of the institution : ")
-    #education["country"] = st.text_input("country : ")
-    #education["city"] = st.text_input("city : ")
-
-    #education["date_start"] = st.date_input("start")
-    #education["date_end"] = st.date_input("end")
-
-    #education["field_of_study"] = st.multiselect("select your study field :", study_fields)
-    #tasks_str = st.text_input("list task that you accomplish :")
-    #education["tasks"] = _str_to_list(tasks_str)
-    add = st.button("add :")
-    if add:
-        st.session_state.candidate["educations"].append(education)
-        #delete field
+    get_education()
 
 
 st.write(st.session_state.candidate)
