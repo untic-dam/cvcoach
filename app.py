@@ -67,6 +67,11 @@ if "candidate" not in st.session_state:
     }
     st.session_state.candidate = candidate
 
+if "projects" not in st.session_state:
+    st.session_state.projects = []
+
+if "tasks" not in st.session_state:
+    st.session_state.tasks = []
 
 #functions
 def _export_candidate_to_json():
@@ -132,18 +137,46 @@ if field_selection == "educations":
 if field_selection == "work experiences":
     work_experience = {}
     add_3 = st.button("add this experience", key="add_3")
+    
+    #work_experience["company_name"] = st.text_input("company name : ")
+    #work_experience["company_website"] = st.text_input("website of the company: ")
+    #work_experience["company_description"] = st.text_area("short description of company :")
+    #work_experience["companay_sectors"] = st.multiselect("sectors : ", sector_field)
+
+    #work_experience["company_country"] = st.text_input("country : ")
+    #work_experience["company_city"] = st.text_input("city : ")
+
+    #work_experience["date_start"] = st.date_input("start")
+    #work_experience["date_end"] = st.date_input("end")
+
     work_experience["role_title"] = st.text_input("role title : ")
-    work_experience["company_name"] = st.text_input("company name : ")
-    work_experience["company_website"] = st.text_input("website of the company: ")
-    work_experience["company_description"] = st.text_area("short description of company :")
-    work_experience["companay_sectors"] = st.multiselect("sectors : ", sector_field)
+    work_experience["role_description"] = st.text_input("role description : ")
 
-    work_experience["company_country"] = st.text_input("country : ")
-    work_experience["company_city"] = st.text_input("city : ")
+    st.write("projects")
+    project = {}
+    project["name"] = st.text_input("name : ")
+    project["description"] = st.text_input("description :")
 
-    work_experience["date_start"] = st.date_input("start")
-    work_experience["date_end"] = st.date_input("end")
+    st.write("tasks")
+    task = {}
+    task["task"] = st.text_input("taks achieved :")
+    task["skills"] = st.text_input("skills involved :")
+    task["quantification"] = st.text_input("quantification :")
+    add_task = st.button("add this task", key="add_task")
+    if add_task:
+        st.session_state.tasks.append(task)
 
+    #end of tasks
+    project["tasks"] = st.session_state.tasks
+
+    add_project = st.button("add this project", key="add_project")
+    if add_project:
+        st.session_state.projects.append(project)
+
+    #end of projects
+    work_experience["projects"] = st.session_state.projects
+
+    #end experience
     add_4 = st.button("add this experience", key="add_4")
 
     if add_3 or add_4:
