@@ -7,6 +7,8 @@ Creation Date: 17/02/2024
 """
 
 import streamlit as st
+import json
+import os
 
 
 #init variables
@@ -33,17 +35,51 @@ study_fields = [
     "Health Sciences"
 ]
 
+sector_field = [
+    "Agriculture, Forestry, and Fishing",
+    "Mining, Quarrying, and Oil and Gas Extraction",
+    "Utilities",
+    "Manufacturing",
+    "Construction",
+    "Wholesale Trade",
+    "Retail Trade",
+    "Transportation and Warehousing",
+    "Information",
+    "Finance and Insurance",
+    "Real Estate, Rental and Leasing",
+    "Professional, Scientific, and Technical Services",
+    "Administrative and Support Services, Waste Management and Remediation Services",
+    "Educational Services",
+    "Healthcare and Social Assistance",
+    "Arts, Entertainment, and Recreation",
+    "Accommodation and Food Services",
+    "Other Services (except Public Administration)",
+    "Public Administration",
+    "Unclassified"
+]
+
 if "candidate" not in st.session_state:
     #store the candidate object
     candidate = {
         "roles": [],
         "educations": [],
-        "work experiences": []
+        "work_experiences": []
     }
     st.session_state.candidate = candidate
 
 
 #functions
+def _export_candidate_to_json():
+    candidate_dict = st.session_state.candidate
+    data_folder = "data"
+
+    # Create the data folder if it doesn't exist
+    if not os.path.exists(data_folder):
+        os.makedirs(data_folder)
+
+    with open("data/candidate.json", "w") as file:
+        json.dump(candidate_dict, file, indent=4)
+
 def _str_to_list(_list):
     return _list.split(", ")
 
@@ -54,7 +90,7 @@ def get_roles():
 
 def get_education():
     education = {}
-    add_1 = st.button("+", key="add_1")
+    add_1 = st.button("add this education", key="add_1")
     education["grade"] = st.text_input("grade : ")
     education["title"] = st.text_input("name of the formation : ")
     education["website"] = st.text_input("website of the formation : ")
@@ -70,7 +106,7 @@ def get_education():
     education["field_of_study"] = st.multiselect("select your study field :", study_fields)
     tasks_str = st.text_input("list task that you accomplish :")
     education["tasks"] = _str_to_list(tasks_str)
-    add_2 = st.button("+", key="add_2")
+    add_2 = st.button("add this education", key="add_2")
 
     if add_1 or add_2:
         st.session_state.candidate["educations"].append(education)
@@ -79,7 +115,7 @@ def get_education():
 st.title("The coach")
 
 #take the input field 
-candidate_fields = [ "educations", "work experiences", "roles"]
+candidate_fields = ["work experiences", "educations", "roles"]
 field_selection = st.selectbox(
     "talk more about your ",
     candidate_fields)
@@ -92,5 +128,29 @@ if field_selection == "roles":
 if field_selection == "educations":
     get_education()
 
+#work experience
+if field_selection == "work experiences":
+    work_experience = {}
+    add_3 = st.button("add this experience", key="add_3")
+    work_experience["role_title"] = st.text_input("role title : ")
+    work_experience["company_name"] = st.text_input("company name : ")
+    work_experience["company_website"] = st.text_input("website of the company: ")
+    work_experience["company_description"] = st.text_area("short description of company :")
+    work_experience["companay_sectors"] = st.multiselect("sectors : ", sector_field)
+
+    work_experience["company_country"] = st.text_input("country : ")
+    work_experience["company_city"] = st.text_input("city : ")
+
+    work_experience["date_start"] = st.date_input("start")
+    work_experience["date_end"] = st.date_input("end")
+
+    add_4 = st.button("add this experience", key="add_4")
+
+    if add_3 or add_4:
+        st.session_state.candidate["work_experiences"].append(work_experience)
+
+
+#export le json
+st.button("save json", key="save_json", on_click=_export_candidate_to_json)
 
 st.write(st.session_state.candidate)
