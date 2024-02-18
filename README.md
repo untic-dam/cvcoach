@@ -2,11 +2,18 @@
 build a coach to help candidate to highlight their experience. Most of the time we do great things but we don't know how to tell them.
 
 # Install
+
+git clone [cvcoach]
+
+cd/cvcoach
+
 conda create --name cvcoach python=3.10
 
 conda activate cvcoach
 
 pip install -r requirements.txt
+
+streamlit run app.py
 
 # package streamlit-pydantic
 this package helps to generate streamlit from a pydantic Basemodel (https://github.com/LukasMasuch/streamlit-pydantic/tree/main)
