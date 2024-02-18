@@ -2,9 +2,9 @@
 build a coach to help candidate to highlight their experience. Most of the time we do great things but we don't know how to tell them.
 
 # Install
-conda create --name coachcv python=3.10
+conda create --name cvcoach python=3.10
 
-conda activate coachcv
+conda activate cvcoach
 
 pip install -r requirements.txt
 
